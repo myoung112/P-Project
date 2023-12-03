@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   data() {
     return {
@@ -56,12 +57,18 @@ export default {
     
     name: 'LoGin',
 
-    login() {
-      if (this.id === 'rjh' && this.pwd === '1234') {
-        alert('로그인 성공');
+    async login() {
+      const auth = getAuth();
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, this.id, this.pwd);
+        const user = userCredential.user;
+        console.log('로그인 성공', user);
+        // 로그인 성공 후의 처리 (예: 라우터 이동)
         this.$router.push('/SearCh');
-      } else {
-        alert('로그인 실패');
+      } catch (error) {
+        console.error('로그인 실패', error);
+        // 로그인 실패 후의 처리 (예: 에러 메시지 표시)
+        alert('로그인 실패: ' + error.message);
       }
     }
   }
