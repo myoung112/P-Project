@@ -13,13 +13,14 @@
             <div class="div-5">Nickname</div>
             <img class="img3" alt="Image" src="/images/ji-3.png" />
           <input type="Nickname" v-bind:style="inputStyle" v-model="Nickname" />
-        <button class="div-11" @click="login">Done</button>
+        <button class="div-11" @click="signup">Done</button>
       </div>
       </div>
     </div>
   </template>
   
   <script>
+  import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
   export default {
     data() {
       return {
@@ -40,12 +41,18 @@
       };
     },
     methods: {
-      login() {
-        if (this.id === 'rjh' && this.pwd === '1234' && this.Nickname) {
-          alert('회원가입 성공');
-          this.$router.push('/LoGin');
-        } else {
-          alert('회원가입 실패');
+      async signup() {
+        const auth = getAuth();
+        try {
+          const userCredential = await createUserWithEmailAndPassword(auth, this.id, this.pwd);
+          const user = userCredential.user;
+          console.log('회원가입 성공', user);
+          // 회원가입 성공 후의 처리 (예: 로그인 페이지로 이동)
+          this.$router.push('/Login');
+        } catch (error) {
+        console.error('회원가입 실패', error);
+        // 회원가입 실패 후의 처리 (예: 에러 메시지 표시)
+        alert('회원가입 실패: ' + error.message);
         }
       }
     }
