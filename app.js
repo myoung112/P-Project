@@ -1,12 +1,15 @@
-const express = require("express");
-const server = express();
+// 
+const express = require('express');
+const app = express();
+const path = require('path');  // path 모듈 사용
 
-server.use(express.static(__dirname));
+app.listen(60020, ()=>{
+    console.log('server on');
+})
 
-server.get("/", (req, res) => { 
-  res.sendFile(__dirname + "/index.html");
-});
-server.listen(9500, (err) => {
-  if (err) return console.log(err);
-  console.log("The server is listening on port 9500");
-});
+app.use( '/', express.static( path.join(__dirname, '/dist') ));  
+// 이 부분이 없으면 아래코드에서 index.html을 로드하지 못한다.
+app.get('/', (req, res)=>{
+    res.sendFile(path.join(__dirname, '/dist/index.html'));  
+})
+// 기본 경로 '/'을 통해 빌드된 dist/index.html 파일을 로드시킨다
