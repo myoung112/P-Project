@@ -1,8 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
-
+test.json
+firestoreconfig.json
 # local env files
 .env.local
 .env.*.local
@@ -22,5 +22,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-test-96370-firebase-adminsdk-4rw0x-c11cc6cc7c.json
